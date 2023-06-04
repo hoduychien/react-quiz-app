@@ -48,7 +48,7 @@ const Quiz = ({ score, setScore }) => {
       selected !== data[currentQuestion]?.correct_answer
     ) {
       return "false";
-    }
+    } else if (answers === data[currentQuestion]?.correct_answer) return "true";
   };
 
   const handleCheck = (ops) => {
