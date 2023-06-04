@@ -8,6 +8,9 @@ import {
   MdOutlineRadioButtonUnchecked,
   // MdOutlineRadioButtonChecked,
 } from "react-icons/md";
+import { VscChromeClose } from "react-icons/vsc";
+
+import { decode } from "html-entities";
 
 const Quiz = ({ score, setScore }) => {
   const { data } = useAsync("/api.php?amount=10&category=21");
@@ -64,6 +67,10 @@ const Quiz = ({ score, setScore }) => {
     }
   };
 
+  const handleQuitGame = () => {
+    setScore(0);
+    navigate("/");
+  };
   return (
     <div className="quiz-wrapper">
       {!data ? (
@@ -72,11 +79,19 @@ const Quiz = ({ score, setScore }) => {
         </div>
       ) : (
         <div className="quiz-main">
+          <div className="quiz-toggle">
+            <VscChromeClose
+              className="quiz-toggle-button"
+              onClick={() => handleQuitGame()}
+            />
+          </div>
           <h3 className="quiz-title">
             Questions {currentQuestion + 1} <span>/ 10</span>
           </h3>
-          <p className="quiz-question">{data[currentQuestion]?.question}</p>
 
+          <p className="quiz-question">
+            {decode(data[currentQuestion]?.question)}
+          </p>
           <div className="quiz-answers">
             {options &&
               options.map((ops) => (
@@ -88,7 +103,7 @@ const Quiz = ({ score, setScore }) => {
                   onClick={() => handleCheck(ops)}
                   disabled={selected}
                 >
-                  <p>{ops}</p>
+                  <p>{decode(ops)}</p>
 
                   <MdOutlineRadioButtonUnchecked
                     className={`quiz-answers-icon `}
@@ -96,7 +111,6 @@ const Quiz = ({ score, setScore }) => {
                 </button>
               ))}
           </div>
-
           <button
             className={
               selected ? "quiz-button" : "quiz-button quiz-button-disable"

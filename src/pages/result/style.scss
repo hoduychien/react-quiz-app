@@ -1,3 +1,4 @@
+@import "../../mixin.scss";
 .result {
   width: 400px;
   padding: 30px;
@@ -12,6 +13,20 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  @include md {
+    width: 300px;
+    padding: 20px;
+  }
+  &-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    &-button {
+      font-size: 20px !important;
+      cursor: pointer;
+    }
+  }
+
   img {
     width: 120px;
     object-fit: cover;
